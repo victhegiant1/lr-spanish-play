@@ -1,0 +1,9 @@
+{
+  "name": "LR Spanish Play",
+  "short_name": "LR Spanish",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#edf4ff",
+  "theme_color": "#3558d4",
+  "icons": []
+}

@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="theme-color" content="#5b2b82" />
+<title>Victoria Spanish Studio</title>
+<style>
+:root{
+  --bg:#f7f2fb;--panel:#ffffff;--ink:#21152b;--muted:#6e6177;--purple:#6f3aa8;--purple2:#9b6ac9;
+  --deep:#3a1d59;--lav:#eadcf7;--lav2:#f2e9fb;--gold:#f2b94b;--green:#58a979;--red:#d96969;
+  --shadow:0 12px 30px rgba(72,35,102,.12);--radius:22px;
+}
+*{box-sizing:border-box} body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:linear-gradient(180deg,#f8f3fc 0%,#f4eef9 100%);color:var(--ink)}
+button,input,textarea,select{font:inherit} button{cursor:pointer}
+.app{max-width:1100px;margin:0 auto;padding:18px 18px 90px}
+.topbar{display:flex;gap:14px;justify-content:space-between;align-items:center;margin:6px 0 18px}
+.brand h1{font-size:clamp(26px,4vw,42px);margin:0;font-weight:800;letter-spacing:-.03em}.brand p{margin:4px 0 0;color:var(--muted)}
+.datepill{background:var(--deep);color:white;padding:10px 14px;border-radius:999px;font-weight:700;white-space:nowrap}
+.hero{background:linear-gradient(135deg,#5b2b82,#8c58bb 58%,#b48cdb);color:white;border-radius:30px;padding:26px;box-shadow:var(--shadow);display:grid;grid-template-columns:1.5fr 1fr;gap:20px;align-items:center}
+.hero h2{font-size:clamp(28px,5vw,48px);margin:0 0 8px;line-height:1}.hero p{margin:0;opacity:.9}.hero-card{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);padding:18px;border-radius:22px;backdrop-filter:blur(8px)}
+.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}.metric{background:rgba(255,255,255,.13);border-radius:16px;padding:12px;text-align:center}.metric b{display:block;font-size:24px}.metric span{font-size:12px;opacity:.85}
+.goalrow{display:flex;gap:10px;margin-top:12px}.goalrow input{width:100px;border:0;border-radius:12px;padding:10px}.goalrow button,.btn{border:0;border-radius:14px;padding:10px 14px;font-weight:750;background:var(--deep);color:white}.btn.alt{background:var(--lav);color:var(--deep)}
+.nav{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin:18px 0}.nav button{border:0;background:var(--panel);box-shadow:var(--shadow);border-radius:16px;padding:12px 8px;font-weight:700;color:var(--deep)}.nav button.active{background:var(--deep);color:white}
+.section{display:none}.section.active{display:block}.section h3{font-size:24px;margin:8px 0 14px}.sectionlead{color:var(--muted);margin-top:-8px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.card{background:var(--panel);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow)}.card h4{margin:0 0 8px;font-size:18px}.card p{color:var(--muted)}
+.progress{height:10px;border-radius:99px;background:#eee6f4;overflow:hidden}.progress>span{display:block;height:100%;background:linear-gradient(90deg,var(--purple),var(--purple2));width:0}
+.worlds{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.world{position:relative;overflow:hidden;min-height:190px}.world::after{content:"";position:absolute;right:-30px;bottom:-45px;width:150px;height:150px;border-radius:50%;background:rgba(111,58,168,.08)}.world .tag{display:inline-block;padding:6px 10px;background:var(--lav);color:var(--deep);border-radius:999px;font-size:12px;font-weight:800}.world .levels{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.leveldot{width:42px;height:42px;border-radius:14px;background:var(--lav2);display:grid;place-items:center;font-weight:800;border:2px solid transparent}.leveldot.done{background:#e5f5ea;color:#23633a;border-color:#9bd0ad}.leveldot.current{background:var(--deep);color:white}.leveldot.locked{opacity:.4}
+.branchlist{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.branch{border-left:6px solid var(--purple);padding-left:16px}.branch ul{margin:10px 0 0;padding-left:18px}.branch li{margin:7px 0}
+.phrase{display:flex;justify-content:space-between;gap:14px;padding:12px 0;border-bottom:1px solid #eee6f4}.phrase:last-child{border-bottom:0}.phrase b{color:var(--deep)}
+.quizq{margin:16px 0;padding:16px;background:var(--lav2);border-radius:16px}.quizq label{display:block;margin:8px 0}.quizq input[type=text],.trainer input,.sentencebox textarea{width:100%;padding:12px;border:1px solid #ddcfeb;border-radius:12px;background:white}.feedback{margin-top:8px;font-weight:700}.ok{color:#267447}.bad{color:#a94747}
+.trainergrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.promptbox{font-size:22px;font-weight:800;color:var(--deep);margin:12px 0}.tiny{font-size:12px;color:var(--muted)}
+.reward{display:inline-flex;align-items:center;gap:6px;background:#fff4d8;color:#7c5716;padding:7px 10px;border-radius:999px;font-weight:800;font-size:13px}
+.bottomnote{margin-top:18px;color:var(--muted);font-size:13px;text-align:center}
+@media(max-width:820px){.hero{grid-template-columns:1fr}.nav{grid-template-columns:repeat(3,1fr)}.grid,.worlds,.branchlist,.trainergrid{grid-template-columns:1fr}.topbar{align-items:flex-start}.datepill{font-size:12px}.app{padding:12px 12px 80px}}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="topbar">
+    <div class="brand"><h1>Victoria Spanish Studio</h1><p>Adult Spanish practice • A1 → A2</p></div>
+    <div class="datepill" id="datePill"></div>
+  </div>
+
+  <section class="hero">
+    <div>
+      <div class="reward">★ Personal learning dashboard</div>
+      <h2>Build Spanish that sticks.</h2>
+      <p>Vocabulary, phrases, conjugation, sentence writing, daily quizzes, and world progress in one place.</p>
+      <div class="metrics">
+        <div class="metric"><b id="stars">0</b><span>Stars</span></div>
+        <div class="metric"><b id="flames">🔥 0</b><span>Flame streak</span></div>
+        <div class="metric"><b id="points">0</b><span>Points</span></div>
+      </div>
+    </div>
+    <div class="hero-card">
+      <b>Daily goal</b>
+      <div class="progress" style="margin:10px 0"><span id="goalBar"></span></div>
+      <div><span id="goalText">0 / 30 points</span></div>
+      <div class="goalrow"><input id="goalInput" type="number" min="5" max="500" value="30"><button onclick="setGoal()">Set goal</button></div>
+      <p class="tiny">Your progress saves on this device.</p>
+    </div>
+  </section>
+
+  <div class="nav">
+    <button class="active" data-tab="today">Today</button><button data-tab="worlds">Worlds</button><button data-tab="vocab">Vocabulary</button><button data-tab="phrases">Phrases</button><button data-tab="train">Practice</button><button data-tab="stats">Progress</button>
+  </div>
+
+  <section id="today" class="section active">
+    <h3>Today’s Spanish</h3><p class="sectionlead">A short daily quiz plus one writing task.</p>
+    <div class="card">
+      <div class="reward" id="dailyLabel">Daily Quiz</div>
+      <div id="dailyQuiz"></div>
+      <button class="btn" onclick="gradeDaily()">Grade today’s quiz</button>
+      <div id="dailyResult" class="feedback"></div>
+    </div>
+    <div class="card" style="margin-top:14px">
+      <h4>Daily writing</h4>
+      <p id="writingPrompt"></p>
+      <textarea id="dailyWriting" rows="4" placeholder="Write your answer in Spanish..."></textarea>
+      <button class="btn alt" style="margin-top:10px" onclick="saveWriting()">Save response + earn points</button>
+      <div id="writingSaved" class="feedback"></div>
+    </div>
+  </section>
+
+  <section id="worlds" class="section">
+    <h3>Worlds</h3><p class="sectionlead">Move through adult-themed Spanish worlds. Flames reflect quiz performance.</p>
+    <div class="worlds" id="worldGrid"></div>
+  </section>
+
+  <section id="vocab" class="section">
+    <h3>Vocabulary Branches</h3><p class="sectionlead">Build vocabulary by real-life category instead of random word lists.</p>
+    <div class="branchlist" id="vocabGrid"></div>
+  </section>
+
+  <section id="phrases" class="section">
+    <h3>Common Phrases</h3><p class="sectionlead">High-use phrases for daily conversation.</p>
+    <div class="card" id="phraseList"></div>
+  </section>
+
+  <section id="train" class="section">
+    <h3>Practice Lab</h3>
+    <div class="trainergrid">
+      <div class="card">
+        <h4>Conjugation Trainer</h4><p class="tiny">Type the correct form. Accents are checked gently.</p>
+        <div class="promptbox" id="conjPrompt"></div>
+        <input id="conjInput" placeholder="Type the conjugation..." autocomplete="off">
+        <div style="display:flex;gap:8px;margin-top:10px"><button class="btn" onclick="checkConj()">Check</button><button class="btn alt" onclick="newConj()">Next</button></div>
+        <div id="conjFeedback" class="feedback"></div>
+      </div>
+      <div class="card sentencebox">
+        <h4>Sentence Grader</h4><p class="tiny">Translate the prompt. You’ll get a score and the model answer.</p>
+        <div class="promptbox" id="sentencePrompt"></div>
+        <textarea id="sentenceInput" rows="3" placeholder="Type your Spanish sentence..."></textarea>
+        <div style="display:flex;gap:8px;margin-top:10px"><button class="btn" onclick="gradeSentence()">Grade</button><button class="btn alt" onclick="newSentence()">Next</button></div>
+        <div id="sentenceFeedback" class="feedback"></div>
+      </div>
+    </div>
+    <div class="card" style="margin-top:14px">
+      <h4>Quick verb reference</h4>
+      <div class="grid">
+        <div><b>-AR</b><p>yo -o • tú -as • él/ella -a • nosotros -amos • ellos -an</p></div>
+        <div><b>-ER</b><p>yo -o • tú -es • él/ella -e • nosotros -emos • ellos -en</p></div>
+        <div><b>-IR</b><p>yo -o • tú -es • él/ella -e • nosotros -imos • ellos -en</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="stats" class="section">
+    <h3>Your Progress</h3>
+    <div class="grid">
+      <div class="card"><h4>Daily quizzes</h4><div class="promptbox" id="quizCount">0</div><p>completed</p></div>
+      <div class="card"><h4>Best flame streak</h4><div class="promptbox" id="bestFlame">0</div><p>days</p></div>
+      <div class="card"><h4>Sentence practice</h4><div class="promptbox" id="sentenceCount">0</div><p>attempts</p></div>
+    </div>
+    <div class="card" style="margin-top:14px"><h4>Recent writing</h4><div id="recentWriting"></div></div>
+  </section>
+
+  <div class="bottomnote">Live app: updates publish through GitHub Pages. Your points, stars and streak save locally on your device.</div>
+</div>
+
+<script>
+const STORE='victoriaSpanishStudioV1';
+const state=JSON.parse(localStorage.getItem(STORE)||'{}');
+Object.assign(state,{points:state.points||0,stars:state.stars||0,flame:state.flame||0,bestFlame:state.bestFlame||0,goal:state.goal||30,quizCount:state.quizCount||0,sentenceCount:state.sentenceCount||0,writing:state.writing||[],completedDays:state.completedDays||{}});
+const save=()=>{localStorage.setItem(STORE,JSON.stringify(state));renderStats();renderHeader();};
+const norm=s=>s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[¿?¡!.,]/g,'').replace(/\s+/g,' ').trim();
+const todayKey=()=>new Date().toISOString().slice(0,10);
+const fmtDate=()=>new Intl.DateTimeFormat('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'}).format(new Date());
+
+document.getElementById('datePill').textContent=fmtDate();
+
+document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.section').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.getElementById(b.dataset.tab).classList.add('active')});
+
+const vocab={
+ 'Daily Life':['mañana — morning','trabajar — to work','cocinar — to cook','limpiar — to clean','descansar — to rest','dormir — to sleep'],
+ 'Food & Dining':['pollo — chicken','arroz — rice','sopa — soup','desayuno — breakfast','cena — dinner','pedir — to order'],
+ 'Family & People':['hijo — son','familia — family','amigo/a — friend','madre — mother','padre — father','niño/a — child'],
+ 'Places & Errands':['supermercado — grocery store','restaurante — restaurant','parque — park','casa — home','trabajo — work','tienda — store'],
+ 'Feelings & Needs':['cansada — tired','feliz — happy','hambre — hunger','sed — thirst','preocupada — worried','bien — well'],
+ 'Time & Plans':['hoy — today','ayer — yesterday','mañana — tomorrow','esta noche — tonight','fin de semana — weekend','después — afterward']
+};
+const phrases=[
+ ['¿Cómo estás?','How are you?'],['Estoy bien, gracias.','I’m good, thank you.'],['No entiendo.','I don’t understand.'],['¿Puedes repetir?','Can you repeat?'],['Quiero aprender español.','I want to learn Spanish.'],['Voy a practicar hoy.','I’m going to practice today.'],['Ayer comí pollo.','Yesterday I ate chicken.'],['Tengo un hijo.','I have one son.'],['Mi hijo tiene seis años.','My son is six years old.'],['No quiero volver a ese restaurante.','I don’t want to go back to that restaurant.']
+];
+const worlds=[
+ {name:'World 1: Everyday Spanish',tag:'Foundation',desc:'Introductions, home, family, food, common present tense.',levels:8},
+ {name:'World 2: Verb City',tag:'Conjugation',desc:'-AR, -ER, -IR patterns plus tener, ir, querer and poder.',levels:8},
+ {name:'World 3: Yesterday & Plans',tag:'A2 bridge',desc:'Basic past tense, ayer, fui, comí, hice, and ir a + infinitive.',levels:8},
+ {name:'World 4: Real-Life Conversations',tag:'Conversation',desc:'Restaurants, errands, family, work and short written responses.',levels:8}
+];
+const conjBank=[
+ ['hablar','yo','hablo'],['hablar','tú','hablas'],['hablar','ella','habla'],['hablar','nosotros','hablamos'],['hablar','ellos','hablan'],
+ ['comer','yo','como'],['comer','tú','comes'],['comer','ella','come'],['comer','nosotros','comemos'],['comer','ellos','comen'],
+ ['vivir','yo','vivo'],['vivir','tú','vives'],['vivir','ella','vive'],['vivir','nosotros','vivimos'],['vivir','ellos','viven'],
+ ['tener','yo','tengo'],['tener','ella','tiene'],['tener','nosotros','tenemos'],['ir','yo','voy'],['ir','ella','va'],['ir','nosotros','vamos'],['querer','yo','quiero'],['querer','ella','quiere'],['poder','yo','puedo'],['poder','tú','puedes']
+];
+const sentenceBank=[
+ {en:'I live in Ohio.',ans:['vivo en ohio']},
+ {en:'I have one son.',ans:['tengo un hijo','yo tengo un hijo']},
+ {en:'My son is six years old.',ans:['mi hijo tiene seis anos']},
+ {en:'I like to eat chicken and rice.',ans:['me gusta comer pollo y arroz']},
+ {en:'I go to the park with my son.',ans:['voy al parque con mi hijo']},
+ {en:'Yesterday I ate chicken.',ans:['ayer comi pollo','comi pollo ayer']},
+ {en:'We eat at home.',ans:['comemos en casa','nosotros comemos en casa']},
+ {en:'She works in an office.',ans:['ella trabaja en una oficina','trabaja en una oficina']},
+ {en:'I am going to study Spanish tomorrow.',ans:['voy a estudiar espanol manana','manana voy a estudiar espanol']},
+ {en:'I do not understand.',ans:['no entiendo']}
+];
+const dailySets=[
+ {q:[['Mi hijo ___ seis años.','tiene'],['Nosotros ___ pollo. (comer)','comemos'],['Yo ___ en Ohio. (vivir)','vivo']],write:'Write 2–3 sentences introducing yourself in Spanish.'},
+ {q:[['Ayer yo ___ pollo. (comer, past)','comí'],['Ella ___ al parque. (ir, present)','va'],['Tú ___ español. (hablar)','hablas']],write:'Write one sentence about what you did yesterday and one about what you do today.'},
+ {q:[['Yo ___ a estudiar español. (ir)','voy'],['Nosotros ___ una casa. (tener)','tenemos'],['Ellos ___ arroz. (comer)','comen']],write:'Write two sentences about your plans for tomorrow using “voy a…”'},
+ {q:[['Ella ___ en Ohio. (vivir)','vive'],['Yo ___ ayudarte. (poder)','puedo'],['Mi hijo ___ español. (estudiar)','estudia']],write:'Write 2–3 sentences about your family.'},
+ {q:[['Nosotros ___ al supermercado. (ir)','vamos'],['Ayer yo ___ en casa. (trabajar, past)','trabajé'],['Ella ___ comer. (querer)','quiere']],write:'Write a short 3-sentence weekend plan in Spanish.'},
+ {q:[['Yo ___ café. (beber)','bebo'],['Tú ___ películas. (mirar)','miras'],['Ellos ___ en casa. (vivir)','viven']],write:'Describe your morning in 2–3 simple Spanish sentences.'},
+ {q:[['Yo ___ un hijo. (tener)','tengo'],['Ella ___ cansada. (estar)','está'],['Nosotros ___ español. (hablar)','hablamos']],write:'Write three things you can say confidently about yourself in Spanish.'}
+];
+let conjIndex=0,sentenceIndex=0;
+
+function renderHeader(){
+ document.getElementById('stars').textContent=state.stars;document.getElementById('flames').textContent='🔥 '+state.flame;document.getElementById('points').textContent=state.points;
+ document.getElementById('goalInput').value=state.goal;const daily=state.completedDays[todayKey()]?.points||0;document.getElementById('goalText').textContent=`${daily} / ${state.goal} points`;document.getElementById('goalBar').style.width=Math.min(100,(daily/state.goal)*100)+'%';
+}
+function addReward(p,s=0){state.points+=p;state.stars+=s;state.completedDays[todayKey()]=state.completedDays[todayKey()]||{points:0};state.completedDays[todayKey()].points+=p;save();}
+function setGoal(){state.goal=Math.max(5,Number(document.getElementById('goalInput').value)||30);save();}
+function renderWorlds(){document.getElementById('worldGrid').innerHTML=worlds.map((w,wi)=>`<div class="card world"><span class="tag">${w.tag}</span><h4 style="margin-top:10px">${w.name}</h4><p>${w.desc}</p><div class="levels">${Array.from({length:w.levels},(_,i)=>`<div class="leveldot ${wi===0&&i<Math.min(3,state.quizCount+1)?'done':wi===0&&i===Math.min(3,state.quizCount+1)?'current':'locked'}">${i+1}</div>`).join('')}</div></div>`).join('')}
+function renderVocab(){document.getElementById('vocabGrid').innerHTML=Object.entries(vocab).map(([k,arr])=>`<div class="card branch"><h4>${k}</h4><ul>${arr.map(x=>`<li>${x}</li>`).join('')}</ul></div>`).join('')}
+function renderPhrases(){document.getElementById('phraseList').innerHTML=phrases.map(([s,e])=>`<div class="phrase"><b>${s}</b><span>${e}</span></div>`).join('')}
+function dailySet(){const d=new Date();const start=new Date(d.getFullYear(),0,0);const day=Math.floor((d-start)/86400000);return dailySets[day%dailySets.length]}
+function renderDaily(){const set=dailySet();document.getElementById('dailyLabel').textContent='Daily Quiz • '+new Intl.DateTimeFormat('en-US',{month:'short',day:'numeric'}).format(new Date());document.getElementById('dailyQuiz').innerHTML=set.q.map((x,i)=>`<div class="quizq"><b>${i+1}. ${x[0]}</b><input id="dq${i}" type="text" style="width:100%;margin-top:10px;padding:10px;border:1px solid #d8c7e8;border-radius:10px" placeholder="Type your answer..."></div>`).join('');document.getElementById('writingPrompt').textContent=set.write}
+function gradeDaily(){const set=dailySet();let score=0;set.q.forEach((x,i)=>{if(norm(document.getElementById('dq'+i).value)===norm(x[1]))score++});const pct=Math.round(score/set.q.length*100);const el=document.getElementById('dailyResult');el.className='feedback '+(pct>=70?'ok':'bad');el.textContent=`${score}/${set.q.length} • ${pct}% ${pct===100?'🔥🔥🔥':pct>=70?'🔥🔥':'🔥'} — Answers: ${set.q.map(x=>x[1]).join(', ')}`;if(!state.completedDays[todayKey()]?.quizDone){state.quizCount++;state.completedDays[todayKey()]=state.completedDays[todayKey()]||{points:0};state.completedDays[todayKey()].quizDone=true;state.flame=pct>=70?state.flame+1:0;state.bestFlame=Math.max(state.bestFlame,state.flame);addReward(10,pct===100?3:pct>=70?2:1);renderWorlds();}}
+function saveWriting(){const t=document.getElementById('dailyWriting').value.trim();if(!t)return;state.writing.unshift({date:fmtDate(),text:t});state.writing=state.writing.slice(0,8);addReward(5,1);document.getElementById('writingSaved').className='feedback ok';document.getElementById('writingSaved').textContent='Saved. +5 points +1 star';}
+function newConj(){conjIndex=(conjIndex+1)%conjBank.length;document.getElementById('conjInput').value='';document.getElementById('conjFeedback').textContent='';renderConj()}
+function renderConj(){const [v,s]=conjBank[conjIndex];document.getElementById('conjPrompt').textContent=`${v} • ${s}`}
+function checkConj(){const [,,a]=conjBank[conjIndex];const val=document.getElementById('conjInput').value;const ok=norm(val)===norm(a);const el=document.getElementById('conjFeedback');el.className='feedback '+(ok?'ok':'bad');el.textContent=ok?'Correct. +2 points':`Not quite. Correct form: ${a}`;if(ok)addReward(2,0)}
+function newSentence(){sentenceIndex=(sentenceIndex+1)%sentenceBank.length;document.getElementById('sentenceInput').value='';document.getElementById('sentenceFeedback').textContent='';renderSentence()}
+function renderSentence(){document.getElementById('sentencePrompt').textContent=sentenceBank[sentenceIndex].en}
+function gradeSentence(){const item=sentenceBank[sentenceIndex],v=norm(document.getElementById('sentenceInput').value);let best=0;item.ans.forEach(a=>{const na=norm(a);const words=na.split(' ');const hits=words.filter(w=>v.split(' ').includes(w)).length;best=Math.max(best,Math.round(hits/words.length*100));if(v===na)best=100});state.sentenceCount++;const el=document.getElementById('sentenceFeedback');el.className='feedback '+(best>=75?'ok':'bad');el.textContent=`Score: ${best}% • Model answer: ${item.ans[0]}`;if(best>=75)addReward(best===100?4:2,best===100?1:0);else save();}
+function renderStats(){document.getElementById('quizCount').textContent=state.quizCount;document.getElementById('bestFlame').textContent=state.bestFlame;document.getElementById('sentenceCount').textContent=state.sentenceCount;document.getElementById('recentWriting').innerHTML=state.writing.length?state.writing.map(x=>`<div class="phrase"><b>${x.date}</b><span>${x.text}</span></div>`).join(''):'<p>No saved writing yet.</p>'}
+renderHeader();renderWorlds();renderVocab();renderPhrases();renderDaily();renderConj();renderSentence();renderStats();
+</script>
+</body>
+</html>

@@ -1,7 +1,7 @@
 {
-  "name": "LR Spanish Play",
-  "short_name": "LR Spanish",
-  "start_url": "./index.html",
+  "name": "Lawson-Rae Spanish Play",
+  "short_name": "Lawson-Rae",
+  "start_url": "./index.html?v=20261106-2",
   "display": "standalone",
   "background_color": "#edf4ff",
   "theme_color": "#3558d4",
